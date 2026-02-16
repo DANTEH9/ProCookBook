@@ -4,6 +4,7 @@ ProCookBook is a professional digital recipe management web application built us
 
 It allows users to add, edit, delete, and manage recipes in a clean and modern interface.
 
+
 ---
 
 ## 🚀 Features
@@ -33,3 +34,21 @@ It allows users to add, edit, delete, and manage recipes in a clean and modern i
 
 ## 📂 Project Structure
 
+ProCookBook
+│
+├── Components/
+│ ├── Pages/
+│ ├── Layout/
+│ └── App.razor
+│
+├── Data/
+│ └── AppDbContext.cs
+│
+├── Models/
+│ └── Recipe.cs
+│
+├── wwwroot/
+│ ├── images/
+│ └── app.css
+│
+└── Program.cs
