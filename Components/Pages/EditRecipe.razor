@@ -1,0 +1,43 @@
+@rendermode InteractiveServer
+@page "/edit/{Id:int}"
+@inject ProCookBook.Data.AppDbContext db
+@inject NavigationManager Nav
+
+<h2>Edit Recipe</h2>
+
+@if (recipe != null)
+{
+    <EditForm Model="recipe" OnValidSubmit="Update">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <input class="form-control mb-3" @bind="recipe.Title" />
+        <input class="form-control mb-3" @bind="recipe.Category" />
+        <input class="form-control mb-3" @bind="recipe.ImageUrl" />
+        <input type="number" class="form-control mb-3"
+               @bind="recipe.CookingTime" />
+        <textarea class="form-control mb-3"
+                  @bind="recipe.Ingredients"></textarea>
+        <textarea class="form-control mb-3"
+                  @bind="recipe.Instructions"></textarea>
+
+        <button class="btn btn-warning">Update</button>
+    </EditForm>
+}
+
+@code {
+
+    [Parameter] public int Id { get; set; }
+    ProCookBook.Models.Recipe? recipe;
+
+    protected override void OnInitialized()
+    {
+        recipe = db.Recipes.FirstOrDefault(r => r.Id == Id);
+    }
+
+    void Update()
+    {
+        db.SaveChanges();
+        Nav.NavigateTo("/recipes");
+    }
+}

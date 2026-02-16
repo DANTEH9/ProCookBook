@@ -1,0 +1,77 @@
+@rendermode InteractiveServer
+@page "/recipes"
+@inject ProCookBook.Data.AppDbContext db
+@inject NavigationManager Nav
+
+<h2 class="mb-4">🍽 All Recipes</h2>
+
+<input class="form-control mb-4"
+       placeholder="Search recipes..."
+       @bind="searchTerm" />
+
+<div class="row">
+
+    @foreach (var recipe in FilteredRecipes())
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card shadow h-100 animate">
+                <img src="@recipe.ImageUrl"
+                     class="card-img-top"
+                     style="height:220px; object-fit:cover;" />
+
+                <div class="card-body">
+                    <h5>@recipe.Title</h5>
+                    <p class="text-muted">@recipe.Category</p>
+                    <p>⏱ @recipe.CookingTime mins</p>
+
+                    <button class="btn btn-dark me-2"
+                            @onclick="() => GoToDetails(recipe.Id)">
+                        View
+                    </button>
+
+                    <button class="btn btn-warning me-2"
+                            @onclick="() => GoToEdit(recipe.Id)">
+                        Edit
+                    </button>
+
+                    <button class="btn btn-danger"
+                            @onclick="() => Delete(recipe.Id)">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+@code {
+
+    string searchTerm = "";
+
+    IEnumerable<ProCookBook.Models.Recipe> FilteredRecipes()
+    {
+        return db.Recipes
+            .Where(r => r.Title.ToLower().Contains(searchTerm.ToLower()));
+    }
+
+    void GoToDetails(int id)
+    {
+        Nav.NavigateTo("/recipe/" + id);
+    }
+
+    void GoToEdit(int id)
+    {
+        Nav.NavigateTo("/edit/" + id);
+    }
+
+    void Delete(int id)
+    {
+        var recipe = db.Recipes.FirstOrDefault(r => r.Id == id);
+        if (recipe != null)
+        {
+            db.Recipes.Remove(recipe);
+            db.SaveChanges();
+        }
+    }
+}

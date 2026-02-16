@@ -1,0 +1,35 @@
+@page "/recipe/{Id:int}"
+@inject ProCookBook.Data.AppDbContext db
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private ProCookBook.Models.Recipe? recipe;
+
+    protected override void OnParametersSet()
+    {
+        recipe = db.Recipes.FirstOrDefault(r => r.Id == Id);
+    }
+}
+
+@if (recipe != null)
+{
+    <div class="container mt-4">
+        <div class="card shadow p-4">
+            <img src="@recipe.ImageUrl"
+                 class="img-fluid mb-3"
+                 style="max-height:400px; object-fit:cover;" />
+
+            <h2>@recipe.Title</h2>
+            <p><strong>Category:</strong> @recipe.Category</p>
+            <p><strong>Cooking Time:</strong> @recipe.CookingTime minutes</p>
+
+            <h4 class="mt-3">Ingredients</h4>
+            <p>@recipe.Ingredients</p>
+
+            <h4>Instructions</h4>
+            <p>@recipe.Instructions</p>
+        </div>
+    </div>
+}

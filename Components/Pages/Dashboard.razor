@@ -1,0 +1,29 @@
+@page "/dashboard"
+@inject ProCookBook.Data.AppDbContext db
+
+<h2 class="mb-4">📊 Dashboard Overview</h2>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h3>@db.Recipes.Count()</h3>
+            <p>Total Recipes</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h3>@db.Recipes.Where(r => r.Category == "Breakfast").Count()</h3>
+            <p>Breakfast Recipes</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h3>@db.Recipes.Where(r => r.Category == "Dinner").Count()</h3>
+            <p>Dinner Recipes</p>
+        </div>
+    </div>
+
+</div>

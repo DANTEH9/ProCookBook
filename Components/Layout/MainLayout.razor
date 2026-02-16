@@ -1,0 +1,60 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JS
+
+<header class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-success" href="/">
+            🍳 ProCookBook
+        </a>
+
+        <div class="ms-auto d-flex align-items-center">
+            <NavLink class="nav-link text-white me-3" href="/" Match="NavLinkMatch.All">
+                Home
+            </NavLink>
+
+            <NavLink class="nav-link text-white me-3" href="/recipes">
+                Recipes
+            </NavLink>
+
+            <NavLink class="nav-link text-white me-3" href="/add">
+                Add Recipe
+            </NavLink>
+
+            <NavLink class="nav-link text-white me-3" href="/dashboard">
+                Dashboard
+            </NavLink>
+
+            <NavLink class="nav-link text-white me-3" href="/about">
+                About
+            </NavLink>
+
+            <NavLink class="nav-link text-white me-3" href="/contact">
+                Contact
+            </NavLink>
+
+            <button class="btn btn-outline-light ms-2"
+                    title="Toggle Dark Mode"
+                    @onclick="ToggleDarkMode">
+                🌙
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="container mt-5 fade-in">
+    @Body
+</main>
+
+@code {
+    private bool darkMode = false;
+
+    async Task ToggleDarkMode()
+    {
+        darkMode = !darkMode;
+
+        if (darkMode)
+            await JS.InvokeVoidAsync("document.body.classList.add", "dark-mode");
+        else
+            await JS.InvokeVoidAsync("document.body.classList.remove", "dark-mode");
+    }
+}

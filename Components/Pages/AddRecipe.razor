@@ -1,0 +1,34 @@
+@rendermode InteractiveServer
+@page "/add"
+@inject ProCookBook.Data.AppDbContext db
+@inject NavigationManager Nav
+
+<h2>Add New Recipe</h2>
+
+<EditForm Model="recipe" OnValidSubmit="Save">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <input class="form-control mb-3" placeholder="Title" @bind="recipe.Title" />
+    <input class="form-control mb-3" placeholder="Category" @bind="recipe.Category" />
+    <input class="form-control mb-3" placeholder="Image URL" @bind="recipe.ImageUrl" />
+    <input type="number" class="form-control mb-3" placeholder="Cooking Time"
+           @bind="recipe.CookingTime" />
+    <textarea class="form-control mb-3" placeholder="Ingredients"
+              @bind="recipe.Ingredients"></textarea>
+    <textarea class="form-control mb-3" placeholder="Instructions"
+              @bind="recipe.Instructions"></textarea>
+
+    <button class="btn btn-success">Save Recipe</button>
+</EditForm>
+
+@code {
+    ProCookBook.Models.Recipe recipe = new();
+
+    void Save()
+    {
+        db.Recipes.Add(recipe);
+        db.SaveChanges();
+        Nav.NavigateTo("/recipes");
+    }
+}

@@ -1,0 +1,30 @@
+﻿@page "/"
+@inject ProCookBook.Data.AppDbContext db
+
+<div class="hero mb-5">
+    <h1>ProCookBook</h1>
+    <p class="lead fw-bold text-light mt-3">
+    MAHANJUMATI
+</p>
+    <a class="btn btn-light btn-lg mt-3" href="/recipes">
+        Explore Recipes
+    </a>
+</div>
+
+<h2 class="mb-4">🔥 Featured Recipes</h2>
+
+<div class="row">
+    @foreach (var recipe in db.Recipes.Take(3))
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <img src="@recipe.ImageUrl" class="card-img-top"
+                     style="height:220px; object-fit:cover;" />
+                <div class="card-body">
+                    <h5>@recipe.Title</h5>
+                    <p class="text-muted">@recipe.Category</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
